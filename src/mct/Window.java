@@ -26,6 +26,8 @@ public class Window extends JFrame {
 	
 	public File code;
 	
+	public String textFill; // Fills the opposing text field with the translation of the first
+	
 	public Window() {
 		setSize(400, 400);
 		setLayout(new FlowLayout());
@@ -46,16 +48,19 @@ public class Window extends JFrame {
 		add(morseText);
 		add(submit);
 		
+		textFill = "";
+		
 	}
 	
 	public class listener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == submit) {
+				textFill = "";
 				numArray = new int[80];
 				charToInt(englishText.getText());
-				morseText.setText("");
 				readMorseFile();
+				morseText.setText(textFill);
 			}
 		}
 	}
@@ -74,8 +79,9 @@ public class Window extends JFrame {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("Codes.txt"));
 			for (int j = 0; j < numArray[j]; j++) {
-				System.out.println(reader.readLine());
+				textFill += reader.readLine().substring(2) + " ";
 			}
+			System.out.println(textFill);
 		} catch(IOException e) {
 			System.out.println("Codes.txt file not found");
 		}
